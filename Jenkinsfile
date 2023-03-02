@@ -6,14 +6,14 @@ pipeline {
     stages{
         stage('Build Maven'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ArpitaSin/ArpitaJenkinsProject']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ambrishpulli/ambrishpullijenkins.git']]])
                 sh 'mvn clean install'
             }
         }
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t arpitasin/my-first-repo-arpita-jenkins:developer .'
+                    sh 'docker build -t ambrishpulli/ambrishpullijenkins .'
                 }
             }
         }
@@ -21,10 +21,10 @@ pipeline {
             steps{
                 script{
                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u ArpitaSin -p ${dockerhubpwd}'
+                   sh 'docker login -u Ambrishpulli -p ${dockerhubpwd}'
 
 }
-                   sh 'docker push ArpitaSin/ArpitaJenkinsProject'
+                   sh 'docker push ambrishpulli/ambrishpullijenkins'
                 }
             }
         }
